@@ -1,9 +1,14 @@
+/*
+    pmacct (Promiscuous mode IP Accounting package)
+    pmacct is Copyright (C) 2003-2012 by Paolo Lucente
+*/
+
 /* 
  * Definitions for BGP packet disassembly structures and routine
  *
  * Baselined from:
  *
- * $Id: bgp_packet.h,v 1.3 2011/11/11 23:12:45 paolo Exp $
+ * $Id: bgp_packet.h,v 1.4 2012/04/10 14:53:21 paolo Exp $
  *
  * Wireshark - Network traffic analyzer
  * By Gerald Combs <gerald@wireshark.org>
