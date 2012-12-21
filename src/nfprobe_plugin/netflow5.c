@@ -29,13 +29,13 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* $Id: netflow5.c,v 1.9 2012/04/10 14:53:22 paolo Exp $ */
+/* $Id: netflow5.c,v 1.10 2012/12/21 19:10:40 paolo Exp $ */
 
 #include "common.h"
 #include "treetype.h"
 #include "nfprobe_plugin.h"
 
-RCSID("$Id: netflow5.c,v 1.9 2012/04/10 14:53:22 paolo Exp $");
+RCSID("$Id: netflow5.c,v 1.10 2012/12/21 19:10:40 paolo Exp $");
 
 /*
  * This is the Cisco Netflow(tm) version 5 packet format
@@ -93,8 +93,10 @@ send_netflow_v5(struct FLOW **flows, int num_flows, int nfsock,
 			errsz = sizeof(err);
 			getsockopt(nfsock, SOL_SOCKET, SO_ERROR,
 			    &err, &errsz); /* Clear ICMP errors */
-			if (send(nfsock, packet, (size_t)offset, 0) == -1)
-				return (-1);
+			if (send(nfsock, packet, (size_t)offset, 0) == -1) {
+			  Log(LOG_WARNING, "WARN ( %s/%s ): send() failed: %s\n", config.name, config.type, strerror(errno));
+			  return (-1);
+			}
 			*flows_exported += j;
 			j = 0;
 			num_packets++;
@@ -203,8 +205,10 @@ send_netflow_v5(struct FLOW **flows, int num_flows, int nfsock,
 		errsz = sizeof(err);
 		getsockopt(nfsock, SOL_SOCKET, SO_ERROR,
 		    &err, &errsz); /* Clear ICMP errors */
-		if (send(nfsock, packet, (size_t)offset, 0) == -1)
-			return (-1);
+		if (send(nfsock, packet, (size_t)offset, 0) == -1) {
+		  Log(LOG_WARNING, "WARN ( %s/%s ): send() failed: %s\n", config.name, config.type, strerror(errno));
+	 	  return (-1);
+		}
 		num_packets++;
 	}
 
